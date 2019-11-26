@@ -1,12 +1,15 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Player {
 	// Attributes
 	Major major;
 
-	Course[] coursesEnrolled;
-	Course[] coursesTaken;
+	ArrayList<Course> coursesAvailable;
+	ArrayList<Course> coursesEnrolled;
+	ArrayList<Course> coursesTaken;
 
 	Location currentLocation;
 
@@ -26,8 +29,9 @@ public class Player {
 	public Player() {
 		major = null;
 
-		coursesEnrolled = null;
-		coursesTaken = null;
+		coursesAvailable = new ArrayList<Course>();
+		coursesEnrolled = new ArrayList<Course>();
+		coursesTaken = new ArrayList<Course>();
 
 		currentLocation = null;
 
@@ -42,6 +46,21 @@ public class Player {
 		pos = new int[2];
 
 		gameOver = false;
+	}
+
+	// accessor coursesAvailable
+	public ArrayList<Course> getCoursesAvailable() {
+		return coursesAvailable;
+	}
+
+	// accessor coursesEnrolled
+	public ArrayList<Course> getCoursesEnrolled() {
+		return coursesEnrolled;
+	}
+
+	// accessor coursesTaken
+	public ArrayList<Course> getCoursesTaken() {
+		return coursesTaken;
 	}
 
 	// accessor creditsTaken
@@ -89,6 +108,19 @@ public class Player {
 		this.major = major;
 		return this;
 	}
+
+	// mutator coursesAvailable
+	public Player setCoursesAvailable(Course[] coursesArray) {
+		ArrayList<Course> coursesAvailable = new ArrayList<Course>(Arrays.asList(coursesArray));
+		this.coursesAvailable = coursesAvailable;
+		return this;
+	}
+
+	// mutator coursesEnrolled
+	
+
+	// mutator coursesTaken
+
 
 	// mutator creditsTaken
 	public Player setCreditsTaken(int creditsTaken) {

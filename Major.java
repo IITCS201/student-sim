@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.List;
 
 public class Major {
 	// Attributes
@@ -53,7 +54,7 @@ public class Major {
 		str += "Major name: " + getName() + "\n";
 		str += "Courses: \n";
 		for (int i = 0; i < courses.length; i++) {
-			str += "\t" + getCourses()[i].getName() + "\n";
+			str += "\t" + getCourses()[i].toString() + "\n";
 		}
 		str += "Credits Required: " + getCreditsReq() + "\n";
 
@@ -62,32 +63,21 @@ public class Major {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		ReadCSV read = new ReadCSV();
-
-		String file = "major.csv";
+		ReadCSV csv = new ReadCSV();
 		
-		System.out.println("Enter major");
-		String search = scan.next();
-
-		String[] s = read.search(file, search);
-
-		String majorName = s[0];
-
-		int majorCredits = Integer.parseInt(s[1]);
-
-		Course[] courses = new Course[s.length - 2];
+		List<List<String>> arr = csv.toList("major.csv");
+		int num = scan.nextInt();
+		List<String> temp = arr.get(num);
+		String[] aae = temp.toArray(new String[0]);
+		String name = aae[0];
+		int credits = Integer.parseInt(aae[1]);
+		Course[] courses = new Course[aae.length - 2];
 		for (int i = 0; i < courses.length; i++) {
-			String courseName = s[i + 2];
-			String[] courseInfo = read.search("course.csv", courseName);
-			courseName = courseInfo[0];
-			int courseCredits = Integer.parseInt(courseInfo[1]);
-			courses[i] = new Course(courseName, courseCredits);
+			String cn = aae[i + 2];
+			courses[i] = new Course(cn, "", 0, new int[] {0,0,0,0,0});
 		}
-
-
-		Major m = new Major(majorName, courses, majorCredits);
-		System.out.println(m.toString());
-
+		Major major = new Major(name, courses, credits);
+		System.out.println(major.toString());
 
 	}
 }

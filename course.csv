@@ -1,0 +1,67 @@
+BIOL 107,General Biology Lecture,3,0,0,0,0,0,0,0
+BIOL 115,Human Biology,3,0,0,0,0,0,0,0
+BIOL 401,Introductory Biochemistry,3,0,0,0,0,0,0,0
+BIOL 403,Biochemistry,4,0,0,0,0,0,0,0
+CHEM 100,Introduction to the Profession,2,0,0,0,0,0,0,0
+CHEM 124,Principles of Chemistry I,4,1,1,0,0,0,0,0
+CHEM 125,Principles of Chemistry I with Lab,4,0,0,0,0,0,0,0
+CHEM 237,Organic Chemistry I,4,0,0,0,0,0,0,0
+CHEM 239,Organic Chemistry II,3,0,0,0,0,0,0,0
+CHEM 240,Organic Chemistry Lab,2,0,0,0,0,0,0,0
+CHEM 247,Analytical Chemistry,4,0,0,0,0,0,0,0
+CHEM 321,Instrumental Analysis,4,0,0,0,0,0,0,0
+CHEM 343,Physical Chemistry I,3,0,0,0,0,0,0,0
+CHEM 344,Physical Chemistry II,4,0,0,0,0,0,0,0
+CHEM 415,Inorganic Chemistry,3,0,0,0,0,0,0,0
+CHEM 416,Advanced Chemistry Lab,3,0,0,0,0,0,0,0
+CHEM 434,Spectroscopic Methods in Identification and Analysis,4,0,0,0,0,0,0,0
+CHEM 485,Chemistry Colloquium,1,0,0,0,0,0,0,0
+CS 100,Introduction to Professions,2,0,0,0,0,0,0,0
+CS 104,Introduction to Computer Programming for Engineers,2,1,2,0,0,0,0,0
+CS 105,Introduction to Computer Programming,2,0,0,0,0,0,0,0
+CS 201,Accelerated Introduction to Computer Science,4,0,0,0,0,0,0,0
+CS 330,Discete Structures,3,0,0,0,0,0,0,0
+CS 331,Data Structers and Algorithms,3,0,0,0,0,0,0,0
+CS 350,Computer Organization and Assembly Language Programming,3,0,0,0,0,0,0,0
+CS 351,Systems Programming,3,0,0,0,0,0,0,0
+CS 411,Computer Graphics,3,0,0,0,0,0,0,0
+CS 422,Data Mining,3,0,0,0,0,0,0,0
+CS 425,Database Organization,3,0,0,0,0,0,0,0
+CS 429,Information Retrieval,3,0,0,0,0,0,0,0
+CS 430,Introduction to Algorithms,3,0,0,0,0,0,0,0
+CS 447,Distributed Objects,3,0,0,0,0,0,0,0
+CS 450,Introduction to Operating Systems,3,0,0,0,0,0,0,0
+CS 451,Introduction to Parallel and Distributed Computing,3,0,0,0,0,0,0,0
+CS 455,Data Communications,3,0,0,0,0,0,0,0
+CS 470,Computer Architecture,3,0,0,0,0,0,0,0
+CS 480,Introduction to Artificial Intelligence,3,0,0,0,0,0,0,0
+CS 481,Artifical Intelligence Language Understanding,3,0,0,0,0,0,0,0
+CS 482,Information and Knowledge Management Systems,3,0,0,0,0,0,0,0
+CS 485,Computers and Society,3,0,0,0,0,0,0,0
+CS 487,Software Engineering I,3,0,0,0,0,0,0,0
+MATH 151,Calculus I,5,1,1,0,0,0,0,0
+MATH 152,Calculus II,5,1,2,0,0,0,0,0
+MATH 251,Multivariate & Vector Calculus,4,2,1,0,0,0,0,0
+MATH 252,Introduction to Differential Equations,4,1,1,0,0,0,0,0
+MMAE 100,Introduction to the Profession,3,1,1,0,0,0,0,0
+MMAE 200,Introduction to Mechanics,3,2,1,0,0,0,0,0
+MMAE 202,Mechanics of Solids II,3,2,2,0,0,0,0,0
+MMAE 232,Design for Innovation,3,2,1,0,0,0,0,0
+MMAE 302,Mechanics of Solids III,3,3,1,0,0,0,0,0
+MMAE 305,Dynamics,3,3,1,0,0,0,0,0
+MMAE 313,Fluid Mechanics,3,3,1,0,0,0,0,0
+MMAE 319,Mechanical Laboratory I,4,3,2,0,0,0,0,0
+MMAE 320,Thermodynamics,3,3,1,0,0,0,0,0
+MMAE 321,Applied Thermodynamics,3,3,2,0,0,0,0,0
+MMAE 323,Heat & Mass Transfer,3,3,2,0,0,0,0,0
+MMAE 332,Design of Machine Elements,3,3,2,0,0,0,0,0
+MMAE 350,Computational Mechanics,3,2,2,0,0,0,0,0
+MMAE 419,Mechanical Laboratory II,4,4,1,0,0,0,0,0
+MMAE 432,Design of Mechanical Systems,3,4,3,0,0,0,0,0
+MMAE 433,Design of Thermal Systems,3,4,3,0,0,0,0,0
+MMAE 443,Systems Analysis & Control,3,4,1,0,0,0,0,0
+MMAE 445,Computer-Aided Design,3,4,1,0,0,0,0,0
+MMAE 485,Manufacturing Processes,3,4,1,0,0,0,0,0
+MS 201,Materials Science,3,1,2,0,0,0,0,0
+PHYS 123,General Physics I,4,1,2,0,0,0,0,0
+PHYS 221,General Physics II,3,2,1,0,0,0,0,0

@@ -3,13 +3,15 @@ public class Location {
 	String name;
 	int[] pos;
 	double[] modifiers;
+	boolean isClass;
 	boolean isWork;
 
 	// constructor
-	public Location(String name, int[] pos, double[] modifiers, boolean isWork) {
+	public Location(String name, int[] pos, double[] modifiers, boolean isClass, boolean isWork) {
 		setName(name);
 		setPos(pos);
 		setModifiers(modifiers);
+		setIsClass(isClass);
 		setIsWork(isWork);
 	}
 
@@ -26,6 +28,11 @@ public class Location {
 	// accessor modifiers
 	public double[] getModifiers() {
 		return modifiers;
+	}
+
+	// accessor isClass
+	public boolean getIsClass() {
+		return isClass;
 	}
 
 	// accessor isWork
@@ -48,6 +55,12 @@ public class Location {
 	// mutator modifiers
 	public Location setModifiers(double[] modifiers) {
 		this.modifiers = modifiers;
+		return this;
+	}
+
+	// mutator isClass
+	public Location setIsClass(boolean isClass) {
+		this.isClass = isClass;
 		return this;
 	}
 
@@ -79,8 +92,6 @@ public class Location {
 	// work method
 	
 	public static void main(String[] args) {
-		Location l = new Location("L", new int[] {0,0}, new double[] {0,0,0,0}, true);
-		l.prompt();
 	}
 }
 
