@@ -62,23 +62,6 @@ public class Major {
 	}
 
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		ReadCSV csv = new ReadCSV();
-		
-		List<List<String>> arr = csv.toList("major.csv");
-		int num = scan.nextInt();
-		List<String> temp = arr.get(num);
-		String[] aae = temp.toArray(new String[0]);
-		String name = aae[0];
-		int credits = Integer.parseInt(aae[1]);
-		Course[] courses = new Course[aae.length - 2];
-		for (int i = 0; i < courses.length; i++) {
-			String cn = aae[i + 2];
-			courses[i] = new Course(cn, "", 0, new int[] {0,0,0,0,0});
-		}
-		Major major = new Major(name, courses, credits);
-		System.out.println(major.toString());
-
 	}
 }
 

@@ -2,17 +2,19 @@ public class Location {
 	// Attributes
 	String name;
 	int[] pos;
-	double[] modifiers;
-	boolean isClass;
-	boolean isWork;
+	int staminaModifier;
+	int schoolModifier;
+	int socialModifier;
+	int moneyModifier;
 
 	// constructor
-	public Location(String name, int[] pos, double[] modifiers, boolean isClass, boolean isWork) {
+	public Location(String name, int[] pos, int staminaModifier, int schoolModifier, int socialModifier, int moneyModifier) {
 		setName(name);
 		setPos(pos);
-		setModifiers(modifiers);
-		setIsClass(isClass);
-		setIsWork(isWork);
+		setStaminaModifier(staminaModifier);
+		setSchoolModifier(schoolModifier);
+		setSocialModifier(socialModifier);
+		setMoneyModifier(moneyModifier);
 	}
 
 	// accessor name
@@ -25,19 +27,24 @@ public class Location {
 		return pos;
 	}
 
-	// accessor modifiers
-	public double[] getModifiers() {
-		return modifiers;
+	// accessor staminaModifier
+	public int getStaminaModifier() {
+		return staminaModifier;
 	}
 
-	// accessor isClass
-	public boolean getIsClass() {
-		return isClass;
+	// accessor schoolModifier
+	public int getSchoolModifier() {
+		return schoolModifier;
 	}
 
-	// accessor isWork
-	public boolean getIsWork() {
-		return isWork;
+	// accessor socialModifier
+	public int getSocialModifier() {
+		return socialModifier;
+	}
+
+	// accessor moneyModifier
+	public int getMoneyModifier() {
+		return moneyModifier;
 	}
 
 	// mutator name
@@ -52,35 +59,28 @@ public class Location {
 		return this;
 	}
 
-	// mutator modifiers
-	public Location setModifiers(double[] modifiers) {
-		this.modifiers = modifiers;
+	// mutator staminaModifer
+	public Location setStaminaModifier(int staminaModifier) {
+		this.staminaModifier = staminaModifier;
 		return this;
 	}
 
-	// mutator isClass
-	public Location setIsClass(boolean isClass) {
-		this.isClass = isClass;
+	// mutator schoolModifier
+	public Location setSchoolModifier(int schoolModifier) {
+		this.schoolModifier = schoolModifier;
 		return this;
 	}
 
-	// mutator isWork
-	public Location setIsWork(boolean isWork) {
-		this.isWork = isWork;
+	// mutator socialModifier
+	public Location setSocialModifier(int socialModifier) {
+		this.socialModifier = socialModifier;
 		return this;
 	}
 
-	// prompt method
-	public void prompt() {
-		System.out.println("Choose an action");
-		if (getIsWork()) {
-			System.out.printf("%-10s %-10s %-10s %-10s\n",
-					"[1] Work", "[2] Sleep", "[3] Study", "[4] Socialize");
-		}
-		else {
-			System.out.printf("%-10s %-10s %-10s\n",
-					"[1] Sleep", "[2] Study", "[3] Socialize");
-		}
+	// mutator moneyModifier
+	public Location setMoneyModifier(int moneyModifier) {
+		this.moneyModifier = moneyModifier;
+		return this;
 	}
 
 	// sleep method

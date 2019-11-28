@@ -23,6 +23,8 @@ public class Player {
 
 	int[] pos;
 
+	int[] schedule;
+
 	boolean gameOver;
 
 	// constructor
@@ -41,9 +43,11 @@ public class Player {
 		stamina = 75;
 		school = 75;
 		social = 75;
-		money = 0;
+		money = 50;
 
 		pos = new int[2];
+
+		schedule = new int[] {0, 1, 0, 1, 0};
 
 		gameOver = false;
 	}
@@ -98,6 +102,16 @@ public class Player {
 		return money;
 	}
 
+	// accessor pos
+	public int[] getPos() {
+		return pos;
+	}
+
+	// accessor schedule
+	public int[] getSchedule() {
+		return schedule;
+	}
+
 	// accessor gameOver
 	public boolean getGameOver() {
 		return gameOver;
@@ -137,6 +151,7 @@ public class Player {
 	// mutator currentLocation
 	public Player setCurrentLocation(Location currentLocation) {
 		this.currentLocation = currentLocation;
+		this.pos = currentLocation.getPos();
 		return this;
 	}
 
@@ -164,12 +179,216 @@ public class Player {
 		return this;
 	}
 
+	// mutator pos
+	public Player setPos(int[] pos) {
+		this.pos = pos;
+		return this;
+	}
+
 	// mutator gameOver
 	public Player setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
 		return this;
 	}
 
+	// updateStamina method
+	public void updateStamina(int stamina) {
+		setStamina(getStamina() + stamina);
+	}
+
+	// updateSchool method
+	public void updateSchool(int school) {
+		setSchool(getSchool() + school);
+	}
+
+	// updateSocial method
+	public void updateSocial(int social) {
+		setSocial(getSocial() + social);
+	}
+
+	// updateMoney method
+	public void updateMoney(int money) {
+		setMoney(getMoney() + money);
+	}
+
+	// move method
+	public void move(Location destination) {
+		if ((getMoney() < destination.getMoneyModifier())) {
+			System.out.println("Not enough money");
+			System.out.println();
+			return;
+		}
+
+		// calculate distance and stamina cost
+		int xDist = Math.abs(destination.getPos()[0] - getPos()[0]);
+		int yDist = Math.abs(destination.getPos()[1] - getPos()[1]);
+		//          Math.round returns long, so typecast as int
+		int dist = (int) Math.round(Math.sqrt(xDist * xDist + yDist * yDist));
+		int staminaCost = (int) Math.round((dist / 2) * (dist / 2));
+		updateStamina(-staminaCost);
+
+		// get money cost
+		int moneyCost = destination.getMoneyModifier();
+		updateMoney(-moneyCost);
+
+		// set currentLocation
+		setCurrentLocation(destination);
+
+		System.out.println("You went to " + getCurrentLocation().getName());
+		if (moneyCost != 0) {
+			System.out.println("-" + staminaCost + " Stamina, "
+					+ "-" + moneyCost + " Money");
+		}
+		else {
+			System.out.println("-" + staminaCost + " Stamina");
+		}
+		System.out.println();
+	}
+
+	// sleep method
+	public void sleep() {
+		int staminaModifier = getCurrentLocation().getStaminaModifier();
+		int otherModifier = (int) staminaModifier/2;
+
+		if (100 - getStamina() < staminaModifier) {
+			staminaModifier = 100 - getStamina();
+		}
+		updateStamina(staminaModifier);
+		updateSchool(-otherModifier);
+		updateSocial(-otherModifier);
+
+		System.out.println("You slept.");
+		System.out.println("+" + staminaModifier + " Stamina, "
+				+ "-" + otherModifier + " School, " 
+				+ "-" + otherModifier + " Social");
+	}
+	
+	// study method
+	public void study() {
+		int schoolModifier = getCurrentLocation().getSchoolModifier();
+		int otherModifier = (int) schoolModifier/2;
+
+		updateStamina(-otherModifier);
+		if (100 - getSchool() < schoolModifier) {
+			schoolModifier = 100 - getSchool();
+		}
+		updateSchool(schoolModifier);
+		updateSocial(-otherModifier);
+
+		System.out.println("You studied.");
+		System.out.println("-" + otherModifier + " Stamina, "
+				+ "+" + schoolModifier + " School, " 
+				+ "-" + otherModifier + " Social");
+	}
+
+	// socialize method
+	public void socialize() {
+		int socialModifier = getCurrentLocation().getSocialModifier();
+		int otherModifier = (int) socialModifier/2;
+
+		updateStamina(-otherModifier);
+		updateSchool(-otherModifier);
+		if (100 - getSocial() < socialModifier) {
+			socialModifier = 100 - getSocial();
+		}
+		updateSocial(socialModifier);
+
+		System.out.println("You socialized.");
+		System.out.println("-" + otherModifier + " Stamina, "
+				+ "-" + otherModifier + " School, " 
+				+ "+" + socialModifier + " Social");
+	}
+
+	// goToWork method
+	public void goToWork() {
+		// gives money, takes stamina, school, and social
+		int staminaModifier = 15;
+		int schoolModifier = 7;
+		int socialModifier = 7;
+		int moneyModifier = 100;
+		
+		updateStamina(-staminaModifier);
+		updateSchool(-schoolModifier);
+		updateSocial(-socialModifier);
+		updateMoney(moneyModifier);
+
+		System.out.println("You worked.");
+		System.out.println("-" + staminaModifier + " Stamina, " 
+				+ "-" + schoolModifier + " School, " 
+				+ "-" + socialModifier + " Social, " 
+				+ "+" + moneyModifier + " Money");
+	}
+
+	// goToClass method
+	public void goToClass(Course course, boolean attended) {
+		if (attended) {
+			course.calcRunningAvg(getSchool());
+			System.out.println("You went to " + course.getName() + ".");
+		}
+		else {
+			course.calcRunningAvg(40);
+			System.out.println("You skipped " + course.getName() + ".");
+		}
+		System.out.println("Your current grade is " + course.getGrade());
+	}
+
+	// getGrades method
+	public void getGrades() {
+		Course c1 = getCoursesEnrolled().get(0);
+		Course c2 = getCoursesEnrolled().get(1);
+
+		c1.assignGrade();
+		c2.assignGrade();
+
+		System.out.println(c1.getName() + ": " + c1.getGrade());
+		if (c1.getPassed()) {
+			System.out.println("Congratulations, you passed.");
+		}
+		else {
+			System.out.println("Sorry, you did not pass.");
+		}
+
+		System.out.println(c2.getName() + ": " + c2.getGrade());
+		if (c2.getPassed()) {
+			System.out.println("Congratulations, you passed.");
+		}
+		else {
+			System.out.println("Sorry, you did not pass.");
+		}
+
+	}
+
+	// endOfSemester method
+	public void endOfSemester() {
+		for (int i = 0; i < getCoursesEnrolled().size(); i++) {
+			Course c = getCoursesEnrolled().get(i);
+			// if course was passed
+			if (c.getPassed() == true) {
+				// update creditsTaken and creditsLeft
+				setCreditsTaken(getCreditsTaken() + c.getNumCredits());
+				setCreditsLeft(getCreditsLeft() - c.getNumCredits());
+			}
+			else {
+				// put course back into coursesAvailable and sort
+				getCoursesAvailable().add(c);
+				// TODO sort
+			}
+			// add to coursesTaken and remove from coursesEnrolled
+			getCoursesTaken().add(c);
+			getCoursesEnrolled().remove(i);
+
+			// reset stats
+			resetStats();
+		}
+	}
+
+	// resetStats method
+	public void resetStats() {
+		setStamina(75);
+		setSchool(75);
+		setSocial(75);
+	}
+	
 	// printStats method
 	public void printStats() {
 		int barLength = 50;
@@ -179,60 +398,64 @@ public class Player {
 		int schoolRound = getSchool() / (100 / barLength);
 		int socialRound = getSocial() / (100 / barLength);
 
+		String bar = "\u23D0";
+		char block = '\u2585';
+		String space = "\u0020";
+
 		// each char in the array accounts for 1 "unit" of the stat
 		// (unit size determined by the bar length)
 		char[] staminaBar = new char[barLength];
 		char[] schoolBar = new char[barLength];
 		char[] socialBar = new char[barLength];
 
-		String staminaStr = "\u23D0 ";
-		String schoolStr = "\u23D0 ";
-		String socialStr = "\u23D0 ";
+		String staminaStr = bar + " ";
+		String schoolStr = bar + " ";
+		String socialStr = bar + " ";
 
 		// fill arrays with blocks
 		for (int i = 0; i < staminaRound; i++) {
-			staminaBar[i] = '\u2585';
+			staminaBar[i] = block;
 		}
 
 		for (int i = 0; i < schoolRound; i++) {
-			schoolBar[i] = '\u2585';
+			schoolBar[i] = block;
 		}
 
 		for (int i = 0; i < socialRound; i++) {
-			socialBar[i] = '\u2585';
+			socialBar[i] = block;
 		}
 
 		// convert arrays to Strings
 		for (int i = 0; i < staminaBar.length; i++) {
 			if (staminaBar[i] == '\000') {
 				// dot = '\2024'
-				staminaStr += "\u0020";
+				staminaStr += space;
 			}
 			else {
 				staminaStr += staminaBar[i];
 			}
 		}
-		staminaStr += " \u23D0";
+		staminaStr += " " + bar;
 
 		for (int i = 0; i < schoolBar.length; i++) {
 			if (schoolBar[i] == '\000') {
-				schoolStr += "\u0020";
+				schoolStr += space;
 			} 
 			else {
 				schoolStr += schoolBar[i];
 			}
 		}
-		schoolStr += " \u23D0";
+		schoolStr += " " + bar;
 
 		for (int i = 0; i < socialBar.length; i++) {
 			if (socialBar[i] == '\000') {
-				socialStr += "\u0020";
+				socialStr += space;
 			} 
 			else {
 				socialStr += socialBar[i];
 			}
 		}
-		socialStr += " \u23D0";
+		socialStr += " " + bar;
 
 		// format Strings
 		System.out.printf("%13s %s %s\n", "Stamina", staminaStr, getStamina());
@@ -242,6 +465,10 @@ public class Player {
 		System.out.printf("%13s \u23D0 %s\n", "Credits Taken", getCreditsTaken());
 		System.out.printf("%13s \u23D0 %s\n", "Credits Left", getCreditsLeft());
 		System.out.printf("%13s \u23D0 %s\n", "Location", getCurrentLocation().getName());
+		Course c1 = getCoursesEnrolled().get(0);
+		Course c2 = getCoursesEnrolled().get(1);
+		System.out.printf("%13s \u23D0 %s\n", c1.getName(), c1.getGrade());
+		System.out.printf("%13s \u23D0 %s\n", c2.getName(), c2.getGrade());
 		System.out.println();
 
 	}

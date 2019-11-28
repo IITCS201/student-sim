@@ -6,6 +6,10 @@ public class Course {
 	int offerYear;
 	int offerSemester;
 	int[] gradingScale;
+	double runningAvg;
+	int numMeetings;
+	char grade;
+	boolean passed;
 
 	// constructor
 	public Course(String name, String fullName, int numCredits, int offerYear, int offerSemester, int[] gradingScale) {
@@ -15,6 +19,10 @@ public class Course {
 		setOfferYear(offerYear);
 		setOfferSemester(offerSemester);
 		setGradingScale(gradingScale);
+		runningAvg = 0;
+		numMeetings = 0;
+		grade = '\000';
+		passed = false;
 	}
 
 	// accessor name
@@ -45,6 +53,21 @@ public class Course {
 	// accessor gradingScale
 	public int[] getGradingScale() {
 		return gradingScale;
+	}
+
+	// accessor runningAvg;
+	public double getRunningAvg() {
+		return runningAvg;
+	}
+
+	// accessor grade
+	public char getGrade() {
+		return grade;
+	}
+
+	// accessor passed
+	public boolean getPassed() {
+		return passed;
 	}
 
 	// mutator name
@@ -81,6 +104,68 @@ public class Course {
 	public Course setGradingScale(int[] gradingScale) {
 		this.gradingScale = gradingScale;
 		return this;
+	}
+
+	// mutator runningAvg
+	public Course setRunningAvg(double runningAvg) {
+		this.runningAvg = runningAvg;
+		return this;
+	}
+
+	// mutator grade
+	public Course setGrade(char grade) {
+		this.grade = grade;
+		return this;
+	}
+
+	// mutator passed
+	public Course setPassed(boolean passed) {
+		this.passed = passed;
+		return this;
+	}
+
+	// calcRunningAvg method
+	public void calcRunningAvg(int school) {
+		if (numMeetings == 0) {
+			setRunningAvg(school);
+		}
+		else {
+			double prevSum = getRunningAvg() * numMeetings;
+			setRunningAvg((prevSum + school) / (numMeetings + 1));
+		}
+		assignGrade();
+		numMeetings++;
+	}
+
+	// assignGrade method
+	public void assignGrade() {
+		int A = gradingScale[0];
+		int B = gradingScale[1];
+		int C = gradingScale[2];
+		int D = gradingScale[3];
+		int E = gradingScale[4];
+		
+		if (getRunningAvg() >= A) {
+			setGrade('A');
+			setPassed(true);
+		}
+		else if (getRunningAvg() >= B) {
+			setGrade('B');
+			setPassed(true);
+		}
+		else if (getRunningAvg() >= C) {
+			setGrade('C');
+			setPassed(true);
+		}
+		else if (getRunningAvg() >= D) {
+			setGrade('D');
+		}
+		else if (getRunningAvg() >= E) {
+			setGrade('E');
+		}
+		else {
+			setGrade('F');
+		}
 	}
 
 	// toString method

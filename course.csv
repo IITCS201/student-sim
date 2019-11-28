@@ -3,7 +3,7 @@ BIOL 115,Human Biology,3,0,0,0,0,0,0,0
 BIOL 401,Introductory Biochemistry,3,0,0,0,0,0,0,0
 BIOL 403,Biochemistry,4,0,0,0,0,0,0,0
 CHEM 100,Introduction to the Profession,2,0,0,0,0,0,0,0
-CHEM 124,Principles of Chemistry I,4,1,1,0,0,0,0,0
+CHEM 124,Principles of Chemistry I,4,1,1,90,80,70,60,50
 CHEM 125,Principles of Chemistry I with Lab,4,0,0,0,0,0,0,0
 CHEM 237,Organic Chemistry I,4,0,0,0,0,0,0,0
 CHEM 239,Organic Chemistry II,3,0,0,0,0,0,0,0
@@ -39,7 +39,7 @@ CS 481,Artifical Intelligence Language Understanding,3,0,0,0,0,0,0,0
 CS 482,Information and Knowledge Management Systems,3,0,0,0,0,0,0,0
 CS 485,Computers and Society,3,0,0,0,0,0,0,0
 CS 487,Software Engineering I,3,0,0,0,0,0,0,0
-MATH 151,Calculus I,5,1,1,0,0,0,0,0
+MATH 151,Calculus I,5,1,1,90,80,70,60,50
 MATH 152,Calculus II,5,1,2,0,0,0,0,0
 MATH 251,Multivariate & Vector Calculus,4,2,1,0,0,0,0,0
 MATH 252,Introduction to Differential Equations,4,1,1,0,0,0,0,0
