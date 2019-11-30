@@ -12,7 +12,8 @@ public class Course {
 	boolean passed;
 
 	// constructor
-	public Course(String name, String fullName, int numCredits, int offerYear, int offerSemester, int[] gradingScale) {
+	public Course(String name, String fullName, int numCredits, 
+			int offerYear, int offerSemester, int[] gradingScale) {
 		setName(name);
 		setFullName(fullName);
 		setNumCredits(numCredits);
@@ -124,6 +125,13 @@ public class Course {
 		return this;
 	}
 
+	// reset method
+	public void reset() {
+		setRunningAvg(0);
+		setGrade('\000');
+		numMeetings = 0;
+	}
+
 	// calcRunningAvg method
 	public void calcRunningAvg(int school) {
 		if (numMeetings == 0) {
@@ -159,20 +167,27 @@ public class Course {
 		}
 		else if (getRunningAvg() >= D) {
 			setGrade('D');
+			setPassed(false);
 		}
 		else if (getRunningAvg() >= E) {
 			setGrade('E');
+			setPassed(false);
 		}
 		else {
 			setGrade('F');
+			setPassed(false);
 		}
 	}
 
 	// toString method
 	@Override
 	public String toString() {
-		String str = "{ " + getName() + " " + getFullName() 
-			+ " Credits: " + getNumCredits() + " }";
+		String str = getName() + " - " + getFullName() 
+			+ " (Credits: " + getNumCredits() + ")";
+		
+		if (getGrade() != '\000') {
+			str += " (Previous grade: " + getGrade() + ")";
+		}
 
 		return str;
 	}

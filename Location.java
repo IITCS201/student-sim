@@ -8,7 +8,8 @@ public class Location {
 	int moneyModifier;
 
 	// constructor
-	public Location(String name, int[] pos, int staminaModifier, int schoolModifier, int socialModifier, int moneyModifier) {
+	public Location(String name, int[] pos, int staminaModifier, 
+			int schoolModifier, int socialModifier, int moneyModifier) {
 		setName(name);
 		setPos(pos);
 		setStaminaModifier(staminaModifier);

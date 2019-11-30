@@ -17,13 +17,18 @@ public class Runner {
 		int medium = 8;
 		int low = 3;
 
-		Location home = new Location("Home", new int[] {7, 8}, high, low, low, 0);
+		Location home = new Location("Home", new int[] {7, 8}, 
+				high, low, low, 0);
 
-		Location library = new Location("Library", new int[] {3, 5}, low, medium, low, 0);
-		Location tutor = new Location("Tutor", new int[] {2, 1}, low, high, low, 25);
+		Location library = new Location("Library", new int[] {3, 5}, 
+				low, medium, low, 0);
+		Location tutor = new Location("Tutor", new int[] {2, 1}, 
+				low, high, low, 25);
 
-		Location studentCenter = new Location("Student Center", new int[] {6, 7}, low, low, medium, 0);
-		Location bar = new Location("Bar", new int[] {15, 5}, low, low, high, 25);
+		Location studentCenter = new Location("Student Center", new int[] {6, 7}, 
+				low, low, medium, 0);
+		Location bar = new Location("Bar", new int[] {15, 5}, 
+				low, low, high, 25);
 
 		String majorCSV = "major.csv";
 			/* 0: number
@@ -57,7 +62,7 @@ public class Runner {
 		final int DAYS_PER_WEEK = 5;
 		final int HOURS_PER_DAY = 4;
 
-		final int LOW_THRESHOLD = 15;
+		final int LOW_THRESHOLD = 10;
 
 		// Timing System:
 		// each turn is 1 hour
@@ -77,9 +82,18 @@ public class Runner {
 		System.out.println("Are you ready to pick a major?");
 		System.out.printf("%-10s %-10s\n", "[1] Yes", "[2] No");
 		System.out.print("> ");
-		int yn = scan.nextInt();
+		int startInput = scan.nextInt();
+		System.out.println();
 
-		if (yn == 2) {
+		while ((startInput != 1) && (startInput != 2)) {
+			System.out.println("That wasn't an option. Try again.");
+			System.out.print("> ");
+			startInput = scan.nextInt();
+			System.out.println();
+		}
+
+		if (startInput == 2) {
+			System.out.println("College isn't for everyone.");
 			gameOver = true;
 		}
 
@@ -102,10 +116,19 @@ public class Runner {
 						"[8] Mechanical Engineering",
 						"[9] Physics");
 				System.out.print("> ");
-				int num = scan.nextInt() - 1;
+				int majorInput = scan.nextInt() - 1;
+				System.out.println();
+
+				// if user chooses number outside of bounds
+				while ((majorInput < 0) || (majorInput > 8)) {
+					System.out.println("That major doesn't exist. Try again.");
+					System.out.print("> ");
+					majorInput = scan.nextInt() - 1;
+					System.out.println();
+				}
 
 				// select chosen major list and store to temp variable
-				List<String> temp = majorsList.get(num);
+				List<String> temp = majorsList.get(majorInput);
 				
 				// convert list to array to simplify use
 				String[] chosenMajor = temp.toArray(new String[0]);
@@ -113,7 +136,8 @@ public class Runner {
 				// isolate name, credits required, and list of courses
 				String majorName = chosenMajor[0];
 				int creditsReq = Integer.parseInt(chosenMajor[1]);
-				Course[] courses = new Course[chosenMajor.length - 5];
+				int numCourses = chosenMajor.length - 2;
+				Course[] courses = new Course[numCourses]; // -5???
 
 				for (int i = 0; i < courses.length; i++) {
 					// search for course in courseList using
@@ -167,34 +191,55 @@ public class Runner {
 			// if beginning of semester, ask user to pick classes
 			if ((week == 1) && (day == 1) && (hour == 1)) {
 				System.out.println("It is the beginning of a new semester.");
-				System.out.println("Pick two classes");
+				System.out.println("Pick two classes (credits remaining: " 
+						+ player.getCreditsLeft() + ")");
 				for (int i = 0; i < player.getCoursesAvailable().size(); i++) {
-					/*
-					if ((player.getCoursesAvailable().get(i).getOfferYear() == year) 
-							&& (player.getCoursesAvailable().get(i).getOfferSemester() == semester)) {
-						System.out.println("[" + (i + 1) + "] " 
-								+ player.getCoursesAvailable().get(i));
-					}
-					*/
-					System.out.println("[" + (i + 1) + "]"
+					System.out.println("[" + (i + 1) + "] "
 							+ player.getCoursesAvailable().get(i));
 				}
 
 				System.out.print("Class 1 > ");
 				int class1Index = scan.nextInt() - 1;
+
+				// if user chooses class outside of bounds
+				while ((class1Index < 0) 
+						|| (class1Index > player.getCoursesAvailable().size() - 1)) {
+					System.out.println("That class doesn't exist. Try again.");
+					System.out.print("Class 1 > ");
+					class1Index = scan.nextInt() - 1;
+				}
+
+				// if everything checks out, assign the variable
 				Course class1 = player.getCoursesAvailable().get(class1Index);
-				System.out.println(class1);
+
 				System.out.print("Class 2 > ");
 				int class2Index = scan.nextInt() - 1;
+				System.out.println();
+
+				// if user chooses class outside of bounds
+				while ((class2Index < 0) 
+						|| (class2Index > player.getCoursesAvailable().size() - 1) 
+						|| (class2Index == class1Index)) {
+
+					if (class2Index == class1Index) {
+						System.out.println("You already picked that class. Try again.");
+					}
+					else {
+						System.out.println("That class doesn't exist. Try again.");
+					}
+
+					System.out.print("Class 2 > ");
+					class2Index = scan.nextInt() - 1;
+					System.out.println();
+				}
+
 				Course class2 = player.getCoursesAvailable().get(class2Index);
 				
-				player.getCoursesEnrolled().add(class1);
-				player.getCoursesEnrolled().add(class2);
+				player.enroll(class1);
+				player.enroll(class2);
 
-				System.out.println("You are now enrolled in ");
-				for (int i = 0; i < player.getCoursesEnrolled().size(); i++) {
-					System.out.println(player.getCoursesEnrolled().get(i));
-				}
+				//player.getCoursesEnrolled().add(class1);
+				//player.getCoursesEnrolled().add(class2);
 			}
 
 			// CHECKPOINT LOW BARS
@@ -204,15 +249,18 @@ public class Runner {
 			}
 
 			if (player.getSchool() < LOW_THRESHOLD) {
-				System.out.println("Do you even know what's going on in class? Maybe you should study.");
+				System.out.println("Do you even know what's going on in class? " 
+						+ "Maybe you should study.");
 			}
 
 			if (player.getSocial() < LOW_THRESHOLD) {
-				System.out.println("Your friends are forgetting you exist. Maybe you should socialize.");
+				System.out.println("Your friends are forgetting you exist. " 
+						+ "Maybe you should socialize.");
 			}
 
 			// create String to print a more helpful version of the hour to the screen
-			// have to be careful with this... while the number of hours in a day is a variable,
+			// have to be careful with this... 
+			// while the number of hours in a day is a variable, 
 			// this essentially hard-codes it to be 4
 			String timeStr = new String();
 			switch (hour) {
@@ -229,12 +277,14 @@ public class Runner {
 			}
 		
 			// CHECKPOINT CHOOSE ACTION
-			// only sleeping, studying, socializing, going to work, or going to class updates the clock
-			int choose = 0;
+			// only sleeping, studying, socializing, going to work, 
+			// or going to class updates the clock
+			int actionInput = 0;
 
-			Course currentCourse = player.getCoursesEnrolled().get(player.getSchedule()[day - 1]);
+			Course currentCourse = player.getCoursesEnrolled()
+				.get(player.getSchedule()[day - 1]);
 
-			while ((choose < 4) && (! gameOver)) {
+			while ((actionInput < 4) && (! gameOver)) {
 				// update player with time and location, then ask for action
 				System.out.println("It is " + timeStr  + ". "
 						+ "You are at the " + player.getCurrentLocation().getName() 
@@ -242,34 +292,71 @@ public class Runner {
 
 				// if class is available
 				if (hour == 3) {
-					System.out.printf("%-16s %-16s %-16s\n%-16s %-16s %-16s\n%-16s %-16s\n",
+					System.out.printf("%-16s %-16s %-16s\n" 
+							+ "%-16s %-16s %-16s\n" 
+							+ "%-16s %-16s\n",
 							"[1] See stats", "[2] See schedule", "[3] Move",
 							"[4] Sleep", "[5] Study", "[6] Socialize",
 							"[7] Go to work", "[8] Go to class");
 					System.out.print("> ");
-					choose = scan.nextInt();
+					actionInput = scan.nextInt();
+					System.out.println();
+
+					// if user inputs number outside bounds
+					while((actionInput < 1) || (actionInput > 8)) {
+						System.out.println("That wasn't an option. Try again.");
+						System.out.print("> ");
+						actionInput = scan.nextInt();
+						System.out.println();
+					}
 				}
 				// if work is available
 				else if ((hour > 1) && (hour < HOURS_PER_DAY)) {
-					System.out.printf("%-16s %-16s %-16s\n%-16s %-16s %-16s\n%-16s\n",
+					System.out.printf("%-16s %-16s %-16s\n" 
+							+ "%-16s %-16s %-16s\n" 
+							+ "%-16s\n",
 							"[1] See stats", "[2] See schedule", "[3] Move",
 							"[4] Sleep", "[5] Study", "[6] Socialize",
 							"[7] Go to work");
 					System.out.print("> ");
-					choose = scan.nextInt();
+					actionInput = scan.nextInt();
+					System.out.println();
+
+					// if user inputs number outside bounds
+					while((actionInput < 1) || (actionInput > 7)) {
+						System.out.println("That wasn't an option. Try again.");
+						System.out.print("> ");
+						actionInput = scan.nextInt();
+						System.out.println();
+					}
 				}
 				// otherwise
 				else {
-					System.out.printf("%-16s %-16s %-16s\n%-16s %-16s %-16s\n",
+					System.out.printf("%-16s %-16s %-16s\n" 
+							+ "%-16s %-16s %-16s\n",
 							"[1] See stats", "[2] See schedule", "[3] Move",
 							"[4] Sleep", "[5] Study", "[6] Socialize");
 					System.out.print("> ");
-					choose = scan.nextInt();
+					actionInput = scan.nextInt();
+					System.out.println();
+
+					// if user inputs number outside bounds
+					while((actionInput < 1) || (actionInput > 6)) {
+						System.out.println("That wasn't an option. Try again.");
+						System.out.print("> ");
+						actionInput = scan.nextInt();
+						System.out.println();
+					}
 				}
 
-				switch (choose) {
+				switch (actionInput) {
 					// see stats
-					case 1: System.out.printf("%14s\u23D0 %-4s %-2s \u23D0 %-8s %-2s \u23D0 %-4s %-2s \u23D0 %-3s %-2s \u23D0 %-4s %-2s \u23D0\n", 
+					case 1: System.out.printf("%14s\u23D0 " 
+									+ "%-4s %-2s \u23D0 " 
+									+ "%-8s %-2s \u23D0 " 
+									+ "%-4s %-2s \u23D0 " 
+									+ "%-3s %-2s \u23D0 " + 
+									"%-4s %-2s \u23D0\n", 
 									"", 
 									"Year", year,
 									"Semester", semester,
@@ -289,6 +376,7 @@ public class Runner {
 									"[4] Student Center", "[5] Bar");
 							System.out.print("> ");
 							int moveTo = scan.nextInt();
+							System.out.println();
 
 							Location currentLocation = null;
 							switch (moveTo) {
@@ -383,9 +471,16 @@ public class Runner {
 				year++;
 				semester = 1;
 			}
+
+			if (player.getCreditsLeft() <= 0) {
+				System.out.println("Graduation");
+				gameOver = true;
+			}
+			/*
 			if (year == 4) {
 				gameOver = true;
 			}
+			*/
 		}
 	} // end main 
 } // end Runner.java

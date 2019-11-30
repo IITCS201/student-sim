@@ -32,7 +32,7 @@ public class Player {
 		major = null;
 
 		coursesAvailable = new ArrayList<Course>();
-		coursesEnrolled = new ArrayList<Course>();
+		coursesEnrolled = new ArrayList<Course>(2);
 		coursesTaken = new ArrayList<Course>();
 
 		currentLocation = null;
@@ -125,7 +125,8 @@ public class Player {
 
 	// mutator coursesAvailable
 	public Player setCoursesAvailable(Course[] coursesArray) {
-		ArrayList<Course> coursesAvailable = new ArrayList<Course>(Arrays.asList(coursesArray));
+		ArrayList<Course> coursesAvailable = 
+			new ArrayList<Course>(Arrays.asList(coursesArray));
 		this.coursesAvailable = coursesAvailable;
 		return this;
 	}
@@ -332,30 +333,33 @@ public class Player {
 		System.out.println("Your current grade is " + course.getGrade());
 	}
 
+	// enroll method
+	public void enroll(Course course) {
+		// remove from coursesAvailable
+		int courseIndex = getCoursesAvailable().indexOf(course);
+		getCoursesAvailable().remove(courseIndex);
+
+		// add to coursesEnrolled
+		getCoursesEnrolled().add(course);
+		course.reset();;
+	}
+
 	// getGrades method
 	public void getGrades() {
-		Course c1 = getCoursesEnrolled().get(0);
-		Course c2 = getCoursesEnrolled().get(1);
+		for (int i = 0; i < getCoursesEnrolled().size(); i++) {
+			Course c = getCoursesEnrolled().get(i);
+			c.assignGrade();
 
-		c1.assignGrade();
-		c2.assignGrade();
+			String str = c.getName() + ": " + c.getGrade();
 
-		System.out.println(c1.getName() + ": " + c1.getGrade());
-		if (c1.getPassed()) {
-			System.out.println("Congratulations, you passed.");
-		}
-		else {
-			System.out.println("Sorry, you did not pass.");
-		}
+			if (! c.getPassed()) {
+				str += " - You will not get credit";
+			}
 
-		System.out.println(c2.getName() + ": " + c2.getGrade());
-		if (c2.getPassed()) {
-			System.out.println("Congratulations, you passed.");
-		}
-		else {
-			System.out.println("Sorry, you did not pass.");
+			System.out.println(str);
 		}
 
+		System.out.println();
 	}
 
 	// endOfSemester method
@@ -373,13 +377,22 @@ public class Player {
 				getCoursesAvailable().add(c);
 				// TODO sort
 			}
-			// add to coursesTaken and remove from coursesEnrolled
-			getCoursesTaken().add(c);
-			getCoursesEnrolled().remove(i);
 
-			// reset stats
-			resetStats();
+			// regardless of grade, add to coursesTaken
+			if (getCoursesTaken().contains(c)) {
+				int replaceIndex = getCoursesTaken().indexOf(c);
+				getCoursesTaken().set(replaceIndex, c);
+			}
+			else {	
+				getCoursesTaken().add(c);
+			}
 		}
+
+		// clear coursesEnrolled
+		getCoursesEnrolled().clear();
+
+		// reset stats
+		resetStats();
 	}
 
 	// resetStats method
@@ -464,7 +477,8 @@ public class Player {
 		System.out.printf("%13s \u23D0 %s\n", "Money", getMoney());
 		System.out.printf("%13s \u23D0 %s\n", "Credits Taken", getCreditsTaken());
 		System.out.printf("%13s \u23D0 %s\n", "Credits Left", getCreditsLeft());
-		System.out.printf("%13s \u23D0 %s\n", "Location", getCurrentLocation().getName());
+		System.out.printf("%13s \u23D0 %s\n", "Location", 
+				getCurrentLocation().getName());
 		Course c1 = getCoursesEnrolled().get(0);
 		Course c2 = getCoursesEnrolled().get(1);
 		System.out.printf("%13s \u23D0 %s\n", c1.getName(), c1.getGrade());
@@ -475,7 +489,68 @@ public class Player {
 
 	public static void main(String[] args) {
 		Player player = new Player();
-		player.printStats();
+		Course c1 = new Course("c1", "", 0, 0, 0, new int[] {0, 0, 0, 0, 0});
+		Course c2 = new Course("c2", "", 0, 0, 0, new int[] {0, 0, 0, 0, 0});
+		Course c3 = new Course("c3", "", 0, 0, 0, new int[] {0, 0, 0, 0, 0});
+
+		// ----------------------------
+		System.out.println("1");
+
+		player.getCoursesAvailable().add(c1);
+		player.getCoursesAvailable().add(c2);
+		player.getCoursesAvailable().add(c3);
+
+		System.out.println("Available courses");
+		for (int i = 0; i < player.getCoursesAvailable().size(); i++) {
+			System.out.println("\t" + player.getCoursesAvailable().get(i));
+		}
+		System.out.println("Enrolled courses");
+		for (int i = 0; i < player.getCoursesEnrolled().size(); i++) {
+			System.out.println("\t" + player.getCoursesEnrolled().get(i));
+		}
+		System.out.println("Taken courses");
+		for (int i = 0; i < player.getCoursesTaken().size(); i++) {
+			System.out.println("\t" + player.getCoursesTaken().get(i));
+		}
+
+		// ----------------------------
+		System.out.println("2");
+
+		player.enroll(c1);
+		player.enroll(c2);
+
+		System.out.println("Available courses");
+		for (int i = 0; i < player.getCoursesAvailable().size(); i++) {
+			System.out.println("\t" + player.getCoursesAvailable().get(i));
+		}
+		System.out.println("Enrolled courses");
+		for (int i = 0; i < player.getCoursesEnrolled().size(); i++) {
+			System.out.println("\t" + player.getCoursesEnrolled().get(i));
+		}
+		System.out.println("Taken courses");
+		for (int i = 0; i < player.getCoursesTaken().size(); i++) {
+			System.out.println("\t" + player.getCoursesTaken().get(i));
+		}
+
+		// ----------------------------
+		System.out.println("3");
+
+		c1.calcRunningAvg(80);
+		c2.calcRunningAvg(94);
+		player.endOfSemester();
+
+		System.out.println("Available courses");
+		for (int i = 0; i < player.getCoursesAvailable().size(); i++) {
+			System.out.println("\t" + player.getCoursesAvailable().get(i));
+		}
+		System.out.println("Enrolled courses");
+		for (int i = 0; i < player.getCoursesEnrolled().size(); i++) {
+			System.out.println("\t" + player.getCoursesEnrolled().get(i));
+		}
+		System.out.println("Taken courses");
+		for (int i = 0; i < player.getCoursesTaken().size(); i++) {
+			System.out.println("\t" + player.getCoursesTaken().get(i));
+		}
 
 	}
 }
